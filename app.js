@@ -1,4 +1,6 @@
 (() => {
+    const getRandom = () => Math.ceil(Math.random() * (19 - 0));
+
     const board = document.getElementById('board');
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -6,6 +8,16 @@
     canvas.width = board.offsetWidth;
     canvas.height = board.offsetHeight;
     board.appendChild(canvas);
+
+    let score = 0;
+    const points = document.createElement('div');
+    points.innerText = score;
+    board.appendChild(points);
+
+    const updateScore = () => {
+        score++;
+        points.innerText = score;
+    };
 
     const rectSize = 20;
     const distance = {
@@ -38,7 +50,7 @@
         board.appendChild(alert);
     };
 
-    const drawRect = () => {
+    const drawUserRect = () => {
         ctx.beginPath();
         ctx.rect(position.x, position.y, rectSize, rectSize);
         ctx.fillStyle = '#17A589';
@@ -46,9 +58,24 @@
         ctx.closePath();
     }
 
+    const getPointPosition = () => ({
+        x: getRandom() * rectSize,
+        y: getRandom() * rectSize
+    });
+
+    let pointPosition = getPointPosition();
+    const drawPointRect = (x, y) => {
+        ctx.beginPath();
+        ctx.rect(x, y, rectSize, rectSize);
+        ctx.fillStyle = '#CB4335';
+        ctx.fill();
+        ctx.closePath();
+    }
+
     const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawRect();
+        drawUserRect();
+        drawPointRect(pointPosition.x, pointPosition.y);
 
         switch (direction) {
             case 'left':
@@ -63,6 +90,11 @@
             case 'down':
                 position.y += distance.y;
                 break;
+        }
+
+        if (position.x === pointPosition.x && position.y === pointPosition.y) {
+            updateScore();
+            pointPosition = getPointPosition();
         }
 
         // if (isKeyPressed) {
