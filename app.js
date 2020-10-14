@@ -5,6 +5,8 @@
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
+    let speed = 180;
+
     canvas.width = board.offsetWidth;
     canvas.height = board.offsetHeight;
     board.appendChild(canvas);
@@ -16,6 +18,11 @@
 
     const updateScore = () => {
         score++;
+        if (score % 3 === 0) {
+            speed -= score > 20 ? 10 : 20;
+        }
+        clearInterval(gameInterval);
+        gameInterval = setInterval(draw, speed);
         points.innerText = score;
     };
 
@@ -39,7 +46,6 @@
     document.addEventListener('keydown', keyDownHandler);
 
     const gameOver = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         clearInterval(gameInterval);
 
         const alert = document.createElement('button');
@@ -135,5 +141,5 @@
         }
     };
 
-    const gameInterval = setInterval(draw, 180);
+    let gameInterval = setInterval(draw, speed);
 })();
