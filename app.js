@@ -1,5 +1,5 @@
 (() => {
-    const getRandom = () => Math.ceil(Math.random() * (19 - 0));
+    const getRandom = () => Math.ceil(Math.random() * (9 - 0));
 
     const board = document.getElementById('board');
     const canvas = document.createElement('canvas');
@@ -26,7 +26,7 @@
         points.innerText = score;
     };
 
-    const rectSize = 20;
+    const rectSize = 40;
     const distance = {
         x: rectSize,
         y: rectSize
@@ -56,11 +56,18 @@
         board.appendChild(alert);
     };
 
+    const userPenguin = new Image();
+    userPenguin.src = './penguin-1.png';
+
+    const pointPenguin = new Image();
+    pointPenguin.src = './penguin-2.png';
+
     const drawUserRect = () => {
         ctx.beginPath();
         ctx.rect(position.x, position.y, rectSize, rectSize);
-        ctx.fillStyle = '#17A589';
-        ctx.fill();
+        // ctx.fillStyle = 'red';
+        // ctx.fill();
+        ctx.drawImage(userPenguin, position.x, position.y);
         ctx.closePath();
     }
 
@@ -72,9 +79,10 @@
     let pointPosition = getPointPosition();
     const drawPointRect = (x, y) => {
         ctx.beginPath();
-        ctx.rect(x, y, rectSize, rectSize);
-        ctx.fillStyle = '#CB4335';
-        ctx.fill();
+        ctx.rect(x, y, rectSize, rectSize)
+        // ctx.fillStyle = 'green';
+        // ctx.fill();
+        ctx.drawImage(pointPenguin, x + 10, y + 10);
         ctx.closePath();
     }
 
